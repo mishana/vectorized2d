@@ -1,6 +1,6 @@
 import numpy as np
 
-from ..point2d import Point2D
+from vectorized2d.point2d import Point2D
 
 
 def test_euclidean_distance_same_shape():

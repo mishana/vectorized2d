@@ -5,7 +5,7 @@ from typing import Iterable, Union
 import numpy as np
 from fast_enum import FastEnum
 
-from .array2d import Array2D
+from vectorized2d.array2d import Array2D
 
 
 class Vector2d(Array2D):
