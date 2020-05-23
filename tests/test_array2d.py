@@ -1,4 +1,4 @@
-from ..array2d import Array2D
+from vectorized2d.array2d import Array2D
 import numpy as np
 
 
