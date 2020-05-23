@@ -20,15 +20,16 @@ jobs:
     steps:
     - uses: goanpeca/setup-miniconda@v1.4.1
       with:
-          activate-environment: vectorized2d
-          environment-file: etc/environment.yml
-          auto-activate-base: false
           auto-update-conda: true
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        conda env create -f environment.yml
+        conda activate vectorized2d
 #     - name: Install dependencies
 #       run: |
 #         python -m pip install --upgrade pip
