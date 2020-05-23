@@ -3,9 +3,9 @@ from random import random, randint
 import numpy as np
 import pytest
 
-import utils.units as units
-from array2d import Array2D
-from coordinate import Coordinate
+from ..utils import units as units
+from ..array2d import Array2D
+from ..coordinate import Coordinate
 
 
 def _rand_degree():

@@ -6,8 +6,8 @@ from typing import Tuple, Iterable, Union
 import numpy as np
 from fast_enum import FastEnum
 
-import utils.units as units
-from point2d import Point2D
+from .utils import units as units
+from .point2d import Point2D
 
 
 class Coordinate(Point2D):

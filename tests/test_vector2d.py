@@ -2,8 +2,8 @@ from random import random, randint
 
 import numpy as np
 
-from array2d import Array2D
-from vector2d import Vector2d
+from ..array2d import Array2D
+from ..vector2d import Vector2d
 
 
 def _rand_degree():

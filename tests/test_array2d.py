@@ -1,4 +1,4 @@
-from array2d import Array2D
+from ..array2d import Array2D
 import numpy as np
 
 
