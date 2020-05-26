@@ -69,7 +69,7 @@ class Vector2d(Array2D):
         return projection_magnitude * onto_unit
 
     @property
-    def direction(self) -> Union[float, np.ndarray]:
+    def direction(self) -> np.ndarray:
         """
         Returns the (positive - between 0 and 2*pi) direction of the vector(s) in radians.
 
