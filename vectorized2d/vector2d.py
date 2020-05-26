@@ -68,14 +68,10 @@ class Vector2d(Array2D):
         projection_magnitude = np.einsum('ij,ij->i', self, onto_unit)[:, np.newaxis]
         return projection_magnitude * onto_unit
 
-    def direction(self, units: Units = Units.RADIANS) -> Union[float, np.ndarray]:
+    @property
+    def direction(self) -> Union[float, np.ndarray]:
         """
-        Calculates the direction of the vector.
+        Returns the (positive - between 0 and 2*pi) direction of the vector(s) in radians.
 
-        :param units: an enum, specifies whether the output direction is given in radians or degrees.
-        :return: the direction
         """
-        direction = np.arctan2(self.x2, self.x1)
-
-        if units is self.Units.DEGREES:
-            return np.rad2deg(direction)
+        return np.arctan2(self.x2, self.x1) % (2 * np.pi)
