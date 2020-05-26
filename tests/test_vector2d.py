@@ -91,8 +91,8 @@ def test_project_v1_onto_v2():
 
 
 def test_direction():
-    direction = np.random.random(size=(5000,)) * randint(0, 360)
-    magnitude = np.random.random(size=(5000,)) * randint(0, 20)
+    direction = np.random.random(size=(5000,)) * randint(1, 360) + 1
+    magnitude = np.random.random(size=(5000,)) * randint(1, 20) + 1
     v = Vector2d(magnitude=magnitude, direction=direction, direction_units=Vector2d.Units.DEGREES)
 
     assert np.allclose(v.direction(units=Vector2d.Units.DEGREES) % 360, direction)
