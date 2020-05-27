@@ -62,27 +62,17 @@ class Array2D(np.ndarray):
     def x1(self):
         """
         This property holds the first axis value(s) of the 2D vector(s)
-        :return: a scalar if it is a 1D array, otherwise a numpy array of values along the first axis
+        :return: a 1D numpy array of values along the first axis
         """
-        x1 = self.view(np.ndarray)[:, 0]
-        # return a scalar if the array is 1D
-        if x1.shape[0] == 1:
-            return x1.item()
-        else:
-            return x1
+        return self.view(np.ndarray)[:, 0]
 
     @property
     def x2(self):
         """
         This property holds the second axis value(s) of the 2D vector(s)
-        :return: a scalar if it is a 1D array, otherwise a numpy array of values along the second axis
+        :return: a 1D numpy array of values along the second axis
         """
-        x2 = self.view(np.ndarray)[:, 1]
-        # return a scalar if the array is 1D
-        if x2.shape[0] == 1:
-            return x2.item()
-        else:
-            return x2
+        return self.view(np.ndarray)[:, 1]
 
     def split(self) -> List[Array2D]:
         """
