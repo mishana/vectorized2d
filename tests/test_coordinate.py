@@ -4,8 +4,7 @@ import numpy as np
 import pytest
 
 from vectorized2d.utils import units as units
-from vectorized2d import Array2D
-from vectorized2d import Coordinate
+from vectorized2d import Array2D, Coordinate
 
 
 def _rand_degree():
