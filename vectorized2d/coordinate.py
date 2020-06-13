@@ -7,7 +7,7 @@ import numpy as np
 from fast_enum import FastEnum
 
 from vectorized2d.utils import units as units
-from vectorized2d.point2d import Point2D
+from vectorized2d import Point2D
 
 
 class Coordinate(Point2D):
