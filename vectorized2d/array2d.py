@@ -45,7 +45,7 @@ class Array2D(np.ndarray):
         return np.concatenate(arrays).view(cls)
 
     def __hash__(self):
-        return hash(str(self))
+        return hash(self.tobytes())
 
     def __eq__(self, other):
         return np.array_equal(self, other)
