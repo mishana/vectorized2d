@@ -11,12 +11,12 @@ README = (HERE/"README.md").read_text()
 setup(
    name="vectorized2d",
    version="0.0.1",
-   descp="This is a user-friendly wrapper to numpy arrays",
-   long_descp=README,
-   long_descp_content="text/markdown",
-   URL="https://github.com/mishana/vectorized2d",
+   description="This is a user-friendly wrapper to numpy arrays",
+   long_description=README,
+   long_description_content_type="text/markdown",
+   url="https://github.com/mishana/vectorized2d",
    author="Michael Leybovich",
-   authoremail="mishana4life@gmail.com",
+   author_email="mishana4life@gmail.com",
    license="MIT",
    classifiers=[
         "License :: OSI Approved :: MIT License",
@@ -24,8 +24,8 @@ setup(
         "Programming Language :: Python :: 3.8",
    ],
    packages=["vectorized2d", "vectorized2d/utils"],
-   includepackagedata=True,
-   installrequires=["numpy", "fast-enum"],
+   include_package_data=True,
+   install_requires=["numpy", "fast-enum"],
    entrypoints={
    },
  )
