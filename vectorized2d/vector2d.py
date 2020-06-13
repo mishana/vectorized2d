@@ -4,6 +4,7 @@ from typing import Iterable, Union
 
 import numpy as np
 from fast_enum import FastEnum
+from numba import njit
 
 from vectorized2d import Array2D
 
@@ -63,10 +64,20 @@ class Vector2D(Array2D):
 
         return super().__new__(cls, input_array=input_array)
 
+    @staticmethod
+    @njit
+    def _project_onto(v, onto_unit):
+        projection_magnitude = (v[:, 0] * onto_unit[:, 0] + v[:, 1] * onto_unit[:, 1]).reshape(-1, 1)
+        return projection_magnitude * onto_unit
+
     def project_onto(self, onto: Vector2D) -> Vector2D:
         onto_unit = onto.normalized()
-        projection_magnitude = np.einsum('ij,ij->i', self, onto_unit)[:, np.newaxis]
-        return projection_magnitude * onto_unit
+        return self._project_onto(self, onto_unit)
+
+    @staticmethod
+    @njit(parallel=True, fastmath=True)
+    def _direction(v):
+        return np.arctan2(v[:, 1], v[:, 0]) % (2 * np.pi)
 
     @property
     def direction(self) -> np.ndarray:
@@ -74,4 +85,4 @@ class Vector2D(Array2D):
         Returns the (positive - between 0 and 2*pi) direction of the vector(s) in radians.
 
         """
-        return np.arctan2(self.x2, self.x1) % (2 * np.pi)
+        return self._direction(self)

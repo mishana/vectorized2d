@@ -1,5 +1,6 @@
 name: vectorized2d
 channels:
+- numba
 - defaults
 dependencies:
 - atomicwrites=1.4.0=py_0
