@@ -7,7 +7,7 @@ import numpy as np
 from fast_enum import FastEnum
 
 from vectorized2d.utils import units as units
-from vectorized2d.point2d import Point2D
+from vectorized2d import Point2D
 
 
 class Coordinate(Point2D):
@@ -54,7 +54,7 @@ class Coordinate(Point2D):
     def lat(self):
         """
         This property holds the latitude value(s) of the Coordinate(s)
-        :return: a scalar if it is a 1D vector, otherwise an array of latitude values
+        :return: a 1D numpy array of latitude values
         """
         return self.x1
 
@@ -62,7 +62,7 @@ class Coordinate(Point2D):
     def lon(self):
         """
         This property holds the longitude value(s) of the Coordinate(s)
-        :return: a scalar if it is a 1D vector, otherwise an array of longitude values
+        :return: a 1D numpy array of longitude values
         """
         return self.x2
 

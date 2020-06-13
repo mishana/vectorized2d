@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from vectorized2d.array2d import Array2D
+from vectorized2d import Array2D
 
 
 class Point2D(Array2D):
