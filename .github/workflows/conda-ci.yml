@@ -8,10 +8,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Update Conda environment with "requirements.yml"
+    - name: Update Conda environment with "environment.yml"
       uses: matthewrmshin/conda-action@v1
       with:
         args: conda env update -f ./environment.yml
+    - name: Activate conda environment
+      uses: matthewrmshin/conda-action@v1
+      with:
+        args: conda activate vectorized2d
     - name: Run "pytest" with the Conda environment
       uses: matthewrmshin/conda-action@v1
       with:
