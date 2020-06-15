@@ -66,7 +66,7 @@ class Vector2D(Array2D):
 
     @staticmethod
     @njit
-    def _project_onto(v, onto_unit):
+    def _project_onto(v: Vector2D, onto_unit: Vector2D):
         projection_magnitude = (v[:, 0] * onto_unit[:, 0] + v[:, 1] * onto_unit[:, 1]).reshape(-1, 1)
         return projection_magnitude * onto_unit
 
@@ -75,8 +75,8 @@ class Vector2D(Array2D):
         return self._project_onto(self, onto_unit)
 
     @staticmethod
-    @njit(parallel=True, fastmath=True)
-    def _direction(v):
+    @njit
+    def _direction(v: Vector2D) -> np.ndarray:
         return np.arctan2(v[:, 1], v[:, 0]) % (2 * np.pi)
 
     @property
@@ -85,4 +85,5 @@ class Vector2D(Array2D):
         Returns the (positive - between 0 and 2*pi) direction of the vector(s) in radians.
 
         """
+        # TODO: add a conditional parallel (and fastmath) jit for larger arrays (~len > 5_000)
         return self._direction(self)

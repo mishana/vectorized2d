@@ -85,16 +85,17 @@ class Array2D(np.ndarray):
 
     @staticmethod
     @njit
-    def _norm(a):
+    def _norm(a: Array2D) -> np.ndarray:
         return np.sqrt(a[:, 0] ** 2 + a[:, 1] ** 2)
 
     @property
     def norm(self) -> np.ndarray:
+        # TODO: add a conditional parallel jit for larger arrays (~len > 500_000)
         return self._norm(self)
 
     @staticmethod
     @njit
-    def _norm_squared(a):
+    def _norm_squared(a: Array2D) -> np.ndarray:
         return a[:, 0] ** 2 + a[:, 1] ** 2
 
     @property
