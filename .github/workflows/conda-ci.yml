@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-    name: Tests with Anaconda :)
+    name: Test on ${{ matrix.os }} with Anaconda
     steps:
       - uses: actions/checkout@v2
       - name: Setup conda
