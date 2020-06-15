@@ -3,3 +3,4 @@ pytest
 setuptools
 numba
 fast-enum
+icc-rt
