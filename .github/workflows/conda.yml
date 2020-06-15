@@ -23,6 +23,7 @@ jobs:
           conda env create -f=environment.yml
           conda init bash
           source ~/.bashrc
+          exec bash
           conda activate vectorized2d
           conda info --env
       - name: TESTS
