@@ -19,6 +19,7 @@ jobs:
           auto-activate-base: false
       - name: ACTIVATE
         run: |
+             conda init bash
              conda activate vectorized2d
       - name: TEST
         run: |
