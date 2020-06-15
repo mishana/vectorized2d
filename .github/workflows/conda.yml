@@ -15,7 +15,12 @@ jobs:
         with:
           activate-environment: vectorized2d
           environment-file: environment.yml
-          auto-activate-base: false
+          auto-activate-base: true
+      - name: INFO
+        run: conda info --envs
+      - uses: goanpeca/setup-miniconda@v1
+          with:
+            activate-environment: vectorized2d
       - name: TEST
         run: |
           pip install pytest
