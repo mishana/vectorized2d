@@ -1,5 +1,8 @@
-from vectorized2d import Array2D
+import random
+
 import numpy as np
+
+from vectorized2d import Array2D
 
 
 def test_construct_single_2d_array_from_array():
@@ -73,3 +76,45 @@ def test_normalize():
     norms = np.linalg.norm(n, axis=1)
 
     assert np.allclose(norms, 1)
+
+
+def test_concat():
+    a1 = np.random.random(size=(1992, 2)).view(Array2D)
+    a2 = np.random.random(size=(817, 2)).view(Array2D)
+
+    a12 = Array2D.concat((a1, a2))
+    a21 = Array2D.concat((a2, a1))
+
+    assert a12.shape[1] == 2
+    assert a21.shape[1] == 2
+    assert a12.shape[0] == a1.shape[0] + a2.shape[0]
+    assert a21.shape[0] == a1.shape[0] + a2.shape[0]
+    assert a12[:a1.shape[0]] == a1
+    assert a12[a1.shape[0]:] == a2
+    assert a21[:a2.shape[0]] == a2
+    assert a21[a2.shape[0]:] == a1
+
+
+def test_repeat_scalar_repeats():
+    a = np.random.random(size=(random.randint(1, 1000), 2)).view(Array2D)
+    repeats = random.randint(1, 100)
+    ar = a.repeat(repeats)
+
+    assert ar.shape[1] == 2
+    assert ar.shape[0] == a.shape[0] * repeats
+
+    for i in range(len(a)):
+        assert np.all(a[i].view(np.ndarray) == ar[(i * repeats):((i + 1) * repeats)].view(np.ndarray))
+
+
+def test_repeat_array_repeats():
+    a = np.random.random(size=(random.randint(1, 1000), 2)).view(Array2D)
+    repeats = np.random.random_integers(low=1, high=100, size=a.shape[0])
+    ar = a.repeat(repeats)
+
+    assert ar.shape[1] == 2
+    assert ar.shape[0] == sum(repeats)
+
+    for i in range(len(a)):
+        assert np.all((a[i] == ar_i for ar_i in ar[(i * sum(repeats[:i])):((i + 1) * repeats[i])]))
+
