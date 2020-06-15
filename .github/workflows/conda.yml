@@ -16,10 +16,10 @@ jobs:
           auto-update-conda: true
           activate-environment: vectorized2d
           environment-file: environment.yml
-          auto-activate-base: true
-      - name: INFO
+          auto-activate-base: false
+      - name: ACTIVATE
         run: conda info --envs
+             conda activate vectorized2d
       - name: TEST
         run: |
-          pip install pytest
           pytest
