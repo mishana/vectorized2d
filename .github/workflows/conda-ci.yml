@@ -12,9 +12,9 @@ jobs:
       uses: matthewrmshin/conda-action@v1
       with:
         args: |
-              conda env create -f environment.yml
-              conda activate vectorized2d
-              pytest
+              [conda env create -f environment.yml,
+              conda activate vectorized2d,
+              pytest]
 
 #    - name: Activate conda environment
 #      uses: matthewrmshin/conda-action@v1
