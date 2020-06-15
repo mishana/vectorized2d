@@ -13,6 +13,7 @@ jobs:
       with:
         args: |
               [conda env create -f environment.yml,
+              conda info --env,
               conda activate vectorized2d,
               pytest]
 
