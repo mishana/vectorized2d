@@ -17,12 +17,11 @@ jobs:
           activate-environment: vectorized2d
           environment-file: environment.yml
           auto-activate-base: false
-      - name: ACTIVATE
-        - shell: bash -l {0}
-           run: |
-                conda info --env
-                conda list
-                conda activate vectorized2d
+      - shell: bash -l {0}
+         run: |
+              conda info --env
+              conda list
+              conda activate vectorized2d
       - name: TEST
         run: |
           pytest
