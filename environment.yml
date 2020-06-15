@@ -1,3 +1,4 @@
+name: vectorized2d
 channels:
 - numba
 - conda-forge
