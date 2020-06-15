@@ -14,8 +14,9 @@ jobs:
       - uses: goanpeca/setup-miniconda@v1
         with:
           activate-environment: vectorized2d
-          environment-file: ./environment.yml
+          environment-file: environment.yml
           auto-activate-base: false
       - name: TEST
         run: |
+          pip install pytest
           pytest
