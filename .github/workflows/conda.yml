@@ -24,7 +24,7 @@ jobs:
           conda init bash
           source ~/.bashrc
       - name: Activate Environment
-          run: |
+        run: |
           exec bash
           conda activate vectorized2d
           conda info --env
