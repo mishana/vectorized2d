@@ -23,12 +23,9 @@ jobs:
           conda env create -f=environment.yml
           conda init bash
           source ~/.bashrc
-      - name: Activate Environment
+      - name: TESTS
         run: |
           eval "$(conda shell.bash hook)"
           conda activate vectorized2d
-          conda info --env
-      - name: TESTS
-        run: |
           conda info --env
           pytest
