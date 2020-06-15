@@ -30,5 +30,6 @@ jobs:
           conda info --env
       - name: TESTS
         run: |
+          conda activate vectorized2d
           conda info --env
           pytest
