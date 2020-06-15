@@ -66,13 +66,13 @@ class Vector2D(Array2D):
 
     @staticmethod
     @njit
-    def _project_onto(v: Vector2D, onto_unit: Vector2D):
+    def _project_onto(v: Vector2D, onto_unit: Vector2D) -> np.ndarray:
         projection_magnitude = (v[:, 0] * onto_unit[:, 0] + v[:, 1] * onto_unit[:, 1]).reshape(-1, 1)
         return projection_magnitude * onto_unit
 
     def project_onto(self, onto: Vector2D) -> Vector2D:
         onto_unit = onto.normalized()
-        return self._project_onto(self, onto_unit)
+        return self._project_onto(self, onto_unit).view(Vector2D)
 
     @staticmethod
     @njit
