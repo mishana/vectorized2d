@@ -7,22 +7,23 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: Conda Linux
-    runs-on: ["ubuntu-latest"]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+    name: Tests with Anaconda :)
     steps:
       - uses: actions/checkout@v2
-      - uses: goanpeca/setup-miniconda@v1
+      - name: Setup conda
+        uses: s-weigand/setup-conda@v1
         with:
-          auto-update-conda: true
-          activate-environment: vectorized2d
-          environment-file: environment.yml
-          auto-activate-base: false
-      - name: INIT
+          update-conda: true
+      - name: Create Environment
         run: |
+          conda env create -f=environment.yml
           conda init bash
-      - name: ACTIVATE
-        run: |
+          source ~/.bashrc
           conda activate vectorized2d
-      - name: TEST
-        run: |
-          pytest
+          conda info --env
+      - name: TESTS
+        run: pytest
