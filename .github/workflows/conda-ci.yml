@@ -1,0 +1,31 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Tests with Conda
+
+on: [push, pull_request]
+
+jobs:
+  test-ubuntu:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    name: Test on ${{ matrix.os }} with Anaconda
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup conda
+        uses: s-weigand/setup-conda@v1
+        with:
+          update-conda: true
+      - name: Create Environment
+        run: |
+          conda env create -f=environment.yml
+          conda init bash
+          source ~/.bashrc
+      - name: TESTS
+        run: |
+          eval "$(conda shell.bash hook)"
+          conda activate vectorized2d
+          conda info --env
+          pytest

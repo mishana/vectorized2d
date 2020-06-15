@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import List, Sequence
 
 import numpy as np
+from numba import njit
 
 
 class Array2D(np.ndarray):
@@ -80,15 +81,26 @@ class Array2D(np.ndarray):
 
         :return: a list of (1x2) array2d objects
         """
-        return [v for v in self]
+        return [self[i:(i + 1)] for i in range(len(self))]
+
+    @staticmethod
+    @njit
+    def _norm(a: Array2D) -> np.ndarray:
+        return np.sqrt(a[:, 0] ** 2 + a[:, 1] ** 2)
 
     @property
     def norm(self) -> np.ndarray:
-        return np.sqrt(np.einsum('ij,ij->i', self, self))
+        # TODO: add a conditional parallel jit for larger arrays (~len > 500_000)
+        return self._norm(self)
+
+    @staticmethod
+    @njit
+    def _norm_squared(a: Array2D) -> np.ndarray:
+        return a[:, 0] ** 2 + a[:, 1] ** 2
 
     @property
     def norm_squared(self) -> np.ndarray:
-        return np.einsum('ij,ij->i', self, self)
+        return self._norm_squared(self)
 
     def normalized(self) -> Array2D:
         norm = self.norm[:, np.newaxis]
