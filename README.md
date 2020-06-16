@@ -10,11 +10,16 @@ Provided objects include:
     (longitude and latitude) in radians.
     
 
+## Installation
+The easiest way to install [vectorized2d](https://pypi.org/project/vectorized2d/) and get updates is via the Python Package Index:
+
+```pip install vectorized2d```
+
 ## Performance 
 Vectorized2d uses [Numba](http://numba.pydata.org/) to gain enhanced performance compared to vanilla numpy.
 
 For example, (per-row) norm calculation:
-```
+```python
   >>> import numpy as np
   >>> from vectorized2d import Array2D
   
