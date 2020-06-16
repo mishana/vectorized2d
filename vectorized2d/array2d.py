@@ -31,7 +31,7 @@ class Array2D(np.ndarray):
 
     def __new__(cls, input_array) -> Array2D:
         # the underlying ndarray is always of shape Nx2
-        return np.asarray(input_array).reshape(-1, 2).view(cls)
+        return np.asarray(input_array, dtype=float).reshape(-1, 2).view(cls)
 
     @classmethod
     def concat(cls, arrays: Sequence[Array2D]) -> Array2D:
@@ -44,6 +44,16 @@ class Array2D(np.ndarray):
         :return: a Array2D object that holds all the 2D-arrays in arrays, stacked up vertically - (N_totalx2) shape
         """
         return np.concatenate(arrays).view(cls)
+
+    def repeat(self, repeats, axis=None) -> Array2D:
+        """
+        Overrides repeat method to always repeat over axis 0.
+
+        :param repeats: number of times to vertically concat the array (number of repetitions)
+        :param axis: to repeat along the 0 axis, unless specifically stated otherwise
+        :return: a Array2D object that holds all the 2D-arrays in arrays, stacked up vertically - (N_totalx2) shape
+        """
+        return super().repeat(repeats, axis=0)
 
     def __hash__(self):
         return hash(self.tobytes())
