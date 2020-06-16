@@ -11,7 +11,7 @@ Provided objects include:
     
 
 ## Installation
-The easiest way to install [vectorized2d](https://pypi.org/project/vectorized2d/) and get updates is via the Python Package Index:
+The easiest way to install [vectorized2d](https://pypi.org/project/vectorized2d/) and get updates is via the Python Package Index (PyPI):
 
 ```bash
 $ pip install vectorized2d
