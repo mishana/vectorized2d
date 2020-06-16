@@ -31,7 +31,7 @@ class Array2D(np.ndarray):
 
     def __new__(cls, input_array) -> Array2D:
         # the underlying ndarray is always of shape Nx2
-        return np.asarray(input_array).reshape(-1, 2).view(cls)
+        return np.asarray(input_array, dtype=float).reshape(-1, 2).view(cls)
 
     @classmethod
     def concat(cls, arrays: Sequence[Array2D]) -> Array2D:
