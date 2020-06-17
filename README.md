@@ -30,8 +30,10 @@ For example, (per-row) norm calculation:
   
   >>> %timeit np.linalg.norm(a_np, axis=1)
   23.1 µs ± 1.25 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+  
   >>> %timeit np.sqrt(np.einsum('ij,ij->i', a_np, a_np))
   10.5 µs ± 40.2 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
+  
   >>> %timeit a_2d.norm
   2.63 µs ± 67.9 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
 ```
