@@ -1,6 +1,7 @@
 numpy
 pytest
 pytest-cov
+codecov
 setuptools
 numba
 fast-enum
