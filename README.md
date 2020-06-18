@@ -1,5 +1,5 @@
 
-
+![Tests](https://github.com/mishana/vectorized2d/workflows/Tests%20with%20Conda/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/mishana/vectorized2d/branch/master/graph/badge.svg)](https://codecov.io/gh/mishana/vectorized2d)
 
 
