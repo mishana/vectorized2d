@@ -1,0 +1,9 @@
+[report]
+exclude_lines =
+    class.*\(ABC\).*:
+    from.*
+    import.*
+
+[run]
+source=vectorized2d
+

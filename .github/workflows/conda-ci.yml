@@ -29,3 +29,6 @@ jobs:
           conda activate vectorized2d
           conda info --env
           pytest
+      - name: Coverage
+          run: |
+            pytest --cov=./
