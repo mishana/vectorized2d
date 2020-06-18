@@ -35,3 +35,4 @@ jobs:
           conda activate vectorized2d
           conda info --env
           pytest --cov=./
+          codecov -t ${{secrets.CODECOV_TOKEN}}

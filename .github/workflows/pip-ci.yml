@@ -33,3 +33,5 @@ jobs:
     - name: Coverage
       run: |
         pytest --cov=./
+        codecov -t ${{secrets.CODECOV_TOKEN}}
+
