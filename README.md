@@ -1,12 +1,9 @@
+# Vectorized2D
 
 ![Tests with conda](https://github.com/mishana/vectorized2d/workflows/Tests%20with%20Conda/badge.svg?branch=master)
 ![Tests with pip](https://github.com/mishana/vectorized2d/workflows/Tests%20with%20pip/badge.svg?branch=master)
 
 [![codecov](https://codecov.io/gh/mishana/vectorized2d/branch/master/graph/badge.svg)](https://codecov.io/gh/mishana/vectorized2d)
-
-
-
-# Vectorized2D
 
 This is a user-friendly wrapper to numpy arrays, for dealing with numerical problems in a vectorized fashion - in the 2D world.
 
