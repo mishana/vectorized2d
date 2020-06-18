@@ -31,4 +31,7 @@ jobs:
           pytest
       - name: Coverage
         run: |
+          eval "$(conda shell.bash hook)"
+          conda activate vectorized2d
+          conda info --env
           pytest --cov=./
