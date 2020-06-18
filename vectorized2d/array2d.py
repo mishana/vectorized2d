@@ -59,7 +59,7 @@ class Array2D(np.ndarray):
         return hash(self.tobytes())
 
     def __eq__(self, other):
-        return np.array_equal(self, other)
+        return type(self) is type(other) and np.array_equal(self, other)
 
     def __ne__(self, other):
         return not self == other

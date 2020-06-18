@@ -14,6 +14,7 @@ dependencies:
 - numpy
 - pip
 - pytest
+- pytest-cov
 - python=3.8
 - setuptools
 - pip:
