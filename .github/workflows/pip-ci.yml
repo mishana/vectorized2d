@@ -31,5 +31,5 @@ jobs:
         pip install pytest
         pytest
     - name: Coverage
-        run: |
-          pytest --cov=./
+      run: |
+        pytest --cov=./
