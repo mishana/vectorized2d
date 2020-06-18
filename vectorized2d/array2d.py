@@ -58,8 +58,22 @@ class Array2D(np.ndarray):
     def __hash__(self):
         return hash(self.tobytes())
 
+    @staticmethod
+    @njit
+    def _array_equal(a: np.ndarray, b: np.ndarray) -> bool:
+        res = True
+        for i in range(len(a)):
+            res = res and a[i, 0] == b[i, 0] and a[i, 1] == b[i, 1]
+            if not res:
+                return False
+
+        return res
+
     def __eq__(self, other):
-        return type(self) is type(other) and np.array_equal(self, other)
+        if type(self) is not type(other) or len(self) != len(other):
+            return False
+        else:
+            return self._array_equal(self, other)
 
     def __ne__(self, other):
         return not self == other
