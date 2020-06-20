@@ -80,7 +80,7 @@ class Array2D(np.ndarray):
 
     def __getitem__(self, item) -> Array2D:
         if isinstance(item, (int, np.integer)):
-            return super().__getitem__(item)[np.newaxis]  # expand dimension, make sure the Coordinate shape is (1x2)
+            return super().__getitem__(item)[np.newaxis]  # expand dimension, make sure the Array shape is (1x2)
         return super().__getitem__(item)
 
     @property
