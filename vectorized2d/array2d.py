@@ -33,6 +33,31 @@ class Array2D(np.ndarray):
         # the underlying ndarray is always of shape Nx2
         return np.asarray(input_array, dtype=float).reshape(-1, 2).view(cls)
 
+    # Override Numpy reduce ufuncs:
+    #     1. For better performance.
+    #     2. To make sure that output type is not Array2D (but rather a float or an ndarray).
+    #     3. For more info refer to - https://github.com/mishana/vectorized2d/issues/8
+    def min(self, axis=None, out=None, keepdims=False, **kwargs):
+        return self.view(np.ndarray).min(axis, out, keepdims, **kwargs)
+
+    def max(self, axis=None, out=None, keepdims=False, **kwargs):
+        return self.view(np.ndarray).max(axis, out, keepdims, **kwargs)
+
+    def sum(self, axis=None, dtype=None, out=None, keepdims=False, **kwargs):
+        return self.view(np.ndarray).sum(axis, dtype, out, keepdims, **kwargs)
+
+    def prod(self, axis=None, dtype=None, out=None, keepdims=False, **kwargs):
+        return self.view(np.ndarray).prod(axis, dtype, out, keepdims, **kwargs)
+
+    def mean(self, axis=None, dtype=None, out=None, keepdims=False, **kwargs):
+        return self.view(np.ndarray).mean(axis, dtype, out, keepdims, **kwargs)
+
+    def std(self, axis=None, dtype=None, out=None, ddof=0, keepdims=False, **kwargs):
+        return self.view(np.ndarray).std(axis, dtype, out, ddof, keepdims, **kwargs)
+
+    def var(self, axis=None, dtype=None, out=None, ddof=0, keepdims=False, **kwargs):
+        return self.view(np.ndarray).var(axis, dtype, out, ddof, keepdims, **kwargs)
+
     @classmethod
     def concat(cls, arrays: Sequence[Array2D]) -> Array2D:
         """
@@ -80,7 +105,7 @@ class Array2D(np.ndarray):
 
     def __getitem__(self, item) -> Array2D:
         if isinstance(item, (int, np.integer)):
-            return super().__getitem__(item)[np.newaxis]  # expand dimension, make sure the Coordinate shape is (1x2)
+            return super().__getitem__(item)[np.newaxis]  # expand dimension, make sure the Array shape is (1x2)
         return super().__getitem__(item)
 
     @property

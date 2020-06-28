@@ -4,4 +4,4 @@ from .vector2d import Vector2D
 from .coordinate import Coordinate
 
 __all__ = ['Array2D', 'Point2D', 'Vector2D', 'Coordinate']
-__version__ = "0.0.3"
+__version__ = "0.0.5"
