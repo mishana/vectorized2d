@@ -118,3 +118,15 @@ def test_repeat_array_repeats():
     for i in range(len(a)):
         assert np.all((a[i] == ar_i for ar_i in ar[(i * sum(repeats[:i])):((i + 1) * repeats[i])]))
 
+
+def test_reduce_ufuncs_same_as_ndarray():
+    a_np = np.random.random(size=(random.randint(1, 1000), 2))
+    a_2d = Array2D(a_np)
+
+    assert a_np.min() == a_2d.min() and np.min(a_2d) == a_2d.min()
+    assert a_np.max() == a_2d.max() and np.max(a_2d) == a_2d.max()
+    assert a_np.sum() == a_2d.sum() and np.sum(a_2d) == a_2d.sum()
+    assert a_np.prod() == a_2d.prod() and np.prod(a_2d) == a_2d.prod()
+    assert a_np.mean() == a_2d.mean() and np.mean(a_2d) == a_2d.mean()
+    assert a_np.std() == a_2d.std() and np.std(a_2d) == a_2d.std()
+    assert a_np.var() == a_2d.var() and np.var(a_2d) == a_2d.var()
