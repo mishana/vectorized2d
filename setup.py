@@ -10,7 +10,7 @@ README = (HERE/"README.md").read_text()
 # This call to setup() does all the work
 setup(
    name="vectorized2d",
-   version="0.0.3",
+   version="0.0.4",
    description="This is a user-friendly wrapper to numpy arrays, \
    with batteries included and numba-enhanced performance.",
    long_description=README,
