@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 from fast_enum import FastEnum
+from numba import njit
 
 from vectorized2d import Array2D
 
@@ -12,10 +13,16 @@ class Point2D(Array2D):
         ALIGNED = 1
 
     @staticmethod
-    def _pairwise_diff(self: Point2D, other: Point2D) -> Point2D:
+    @njit
+    def _pairwise_diff(self: Point2D, other: Point2D) -> np.ndarray:
+        """
+        This function returns the pairwise difference (applying "minus" operator) between all the pairs of points
+        from self and other.
+        """
+        # TODO: add a conditional parallel jit for larger arrays (~len(s)xlen(o) > 10_000)
         self_reshaped = self.reshape((len(self), 1, 2))
         other_reshaped = other.reshape((1, len(other), 2))
-        return (self_reshaped - other_reshaped).reshape(-1, 2)
+        return np.ascontiguousarray(self_reshaped - other_reshaped).reshape(-1, 2)
 
     def euclid_dist(self, other: Point2D, *, pairing: Pairing = Pairing.ALL) -> np.ndarray:
         """
@@ -36,7 +43,7 @@ class Point2D(Array2D):
         if pairing is self.Pairing.ALIGNED or len(self) == 1 or len(other) == 1:
             dists = (self - other).norm
         else:
-            dists = self._pairwise_diff(self, other).norm
+            dists = self._pairwise_diff(self, other).view(type(self)).norm
 
         if pairing is self.Pairing.ALL:
             dists = dists.reshape(len(self), len(other))
@@ -62,7 +69,7 @@ class Point2D(Array2D):
         if pairing is self.Pairing.ALIGNED or len(self) == 1 or len(other) == 1:
             dists = (self - other).norm_squared
         else:
-            dists = self._pairwise_diff(self, other).norm_squared
+            dists = self._pairwise_diff(self, other).view(type(self)).norm_squared
 
         if pairing is self.Pairing.ALL:
             dists = dists.reshape(len(self), len(other))
