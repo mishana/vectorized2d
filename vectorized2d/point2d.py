@@ -16,8 +16,15 @@ class Point2D(Array2D):
     @njit
     def _pairwise_diff(self: Point2D, other: Point2D) -> np.ndarray:
         """
-        This function returns the pairwise difference (applying "minus" operator) between all the pairs of points
-        from self and other.
+        This function returns the pairwise difference(s) between all the pairs of points from self and other.
+
+        Note1: this function heavily utilizes numpy array broadcasting features. That is, instead of tiling/repeating
+        `self` and `other` according to their corresponding lengths, we add singleton dimensions to `self` (dim=1) and
+        `other` (dim=0). This way, numpy is able to implicitly broadcast the values across dim=1 for `self` and dim=0
+        for `other`, saving precious time that might be spent on redundant copying otherwise.
+
+        Note2: after expanding dimensions and broadcasting the resulting shape is (len(self), len(other), 2), thus,
+        we need to reshape the result back to a (Nx2) shape.
         """
         # TODO: add a conditional parallel jit for larger arrays (~len(s)xlen(o) > 10_000)
         self_reshaped = self.reshape((len(self), 1, 2))
