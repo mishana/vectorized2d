@@ -107,7 +107,7 @@ def test_repeat_scalar_repeats():
         assert np.all(a[i].view(np.ndarray) == ar[(i * repeats):((i + 1) * repeats)].view(np.ndarray))
 
 
-def test_repeat_array_repeats():
+def test_repeat_iterable_repeats():
     a = np.random.random(size=(random.randint(1, 1000), 2)).view(Array2D)
     repeats = np.random.random_integers(low=1, high=100, size=a.shape[0])
     ar = a.repeat(repeats)
@@ -117,6 +117,20 @@ def test_repeat_array_repeats():
 
     for i in range(len(a)):
         assert np.all((a[i] == ar_i for ar_i in ar[(i * sum(repeats[:i])):((i + 1) * repeats[i])]))
+
+
+def test_tile():
+    a = np.random.random(size=(random.randint(1, 1000), 2)).view(Array2D)
+    repeats = random.randint(1, 100)
+    ar = a.tile(repeats)
+
+    assert ar.shape[1] == 2
+    assert ar.shape[0] == a.shape[0] * repeats
+
+    for i in range(repeats):
+        start = i * len(a)
+        end = start + len(a)
+        assert a == ar[start:end]
 
 
 def test_reduce_ufuncs_same_as_ndarray():

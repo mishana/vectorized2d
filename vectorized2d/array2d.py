@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Sequence
+from typing import List, Sequence, Union, Iterable
 
 import numpy as np
 from numba import njit
@@ -70,15 +70,52 @@ class Array2D(np.ndarray):
         """
         return np.concatenate(arrays).view(cls)
 
-    def repeat(self, repeats, axis=None) -> Array2D:
+    def repeat(self, repeats: Union[int, Iterable[int]], axis=None) -> Array2D:
         """
         Overrides repeat method to always repeat over axis 0.
+        Repeats each row according to `repeats`.
 
-        :param repeats: number of times to vertically concat the array (number of repetitions)
+        Examples:
+        --------
+        >>> a1 = Array2D([[1., 2.], [3., 4.]])
+
+        >>> a1.repeat(2)
+        Array2D([[1., 2.],
+         [1., 2.],
+         [3., 4.],
+         [3., 4.]])
+
+        >>> a1.repeat((2, 3))
+        Array2D([[1., 2.],
+         [1., 2.],
+         [3., 4.],
+         [3., 4.],
+         [3., 4.]])
+
+        :param repeats: number of times to consecutively repeat each row of the array (number of repetitions)
         :param axis: to repeat along the 0 axis, unless specifically stated otherwise
         :return: a Array2D object that holds all the 2D-arrays in arrays, stacked up vertically - (N_totalx2) shape
         """
         return super().repeat(repeats, axis=0)
+
+    def tile(self, reps: int) -> Array2D:
+        """
+        Construct a new Array2D object by repeating itself vertically `reps` times.
+
+        Examples:
+        --------
+        >>> a1 = Array2D([[1., 2.], [3., 4.]])
+
+        >>> a1.tile(2)
+        Array2D([[1., 2.],
+         [3., 4.],
+         [1., 2.],
+         [3., 4.]])
+
+        :param reps: number of times to vertically concat the array (number of repetitions)
+        :return: a Array2D object that holds all the 2D-arrays in arrays, stacked up vertically - (N_totalx2) shape
+        """
+        return np.tile(self, (reps, 1)).view(type(self))
 
     def __hash__(self):
         return hash(self.tobytes())

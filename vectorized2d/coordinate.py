@@ -202,5 +202,5 @@ class Coordinate(Point2D):
         :return: a Coordinate with shape=(number_of_points, 2), that holds coordinates of samples from
                  the surrounding circle
         """
-        assert self.shape[0] == 1, "circle_around() method is undefined for multi-coordinates"
+        assert len(self) == 1, "circle_around() method is undefined for multi-coordinates"
         return self.shifted(geo_dist=radius, bearing=np.arange(0, math.pi * 2, (math.pi * 2) / number_of_points))
