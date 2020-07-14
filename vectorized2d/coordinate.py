@@ -202,5 +202,30 @@ class Coordinate(Point2D):
         :return: a Coordinate with shape=(number_of_points, 2), that holds coordinates of samples from
                  the surrounding circle
         """
-        assert len(self) == 1, "circle_around() method is undefined for multi-coordinates"
+        assert len(self) == 1, 'circle_around() method is undefined for multi-coordinates'
         return self.shifted(geo_dist=radius, bearing=np.arange(0, math.pi * 2, (math.pi * 2) / number_of_points))
+
+
+    @staticmethod
+    @njit
+    def _ellipse_around(major_radius: float, minor_radius: float, major_axis_bearing: float,
+                        number_of_points: int) -> Tuple[np.ndarray, float]:
+        bearings = np.arange(0, math.pi * 2, (math.pi * 2) / number_of_points)
+        radii = (major_radius * minor_radius) / np.sqrt(
+            (major_radius ** 2) * (np.pi / 2 - np.cos(bearings - major_axis_bearing) ** 2) +
+            (minor_radius ** 2) * (np.sin(bearings - major_axis_bearing) ** 2))
+        return bearings, radii
+
+    def ellipse_around(self, major_radius: float, minor_radius: float, major_axis_bearing: float,
+                       number_of_points: int = 60) -> Coordinate:
+        """
+        Return a multi-coordinate with shape=(number_of_points, 2), representing an ellipse around the coordinate
+
+        :param major_radius: the semi-major axis radius in [m]
+        :param minor_radius: the semi-minor axis radius in [m]
+        :param major_axis_bearing: the bearing of the semi-major axis in [rad]
+        :param number_of_points: number of coordinate in the computed ellipse polygon
+        """
+        assert len(self) == 1, 'ellipse_around() method is undefined for multi-coordinates'
+        bearings, radii = Coordinate._ellipse_around(major_radius, minor_radius, major_axis_bearing, number_of_points)
+        return self.shifted(geo_dist=radii, bearing=bearings)
