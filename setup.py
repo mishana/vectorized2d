@@ -26,7 +26,7 @@ setup(
    ],
    packages=["vectorized2d", "vectorized2d/utils"],
    include_package_data=True,
-   install_requires=["numpy", "fast-enum"],
+   install_requires=["numpy", "fast-enum", "numba"],
    entrypoints={
    },
  )
