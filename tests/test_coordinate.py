@@ -1,5 +1,6 @@
 from random import random, randint
 
+import math
 import numpy as np
 import pytest
 
@@ -235,4 +236,5 @@ def test_circle_around():
     dists, bearings = c.geo_dist_and_bearing(circle)
 
     assert np.allclose(dists, radius, rtol=0.01)
-    assert np.allclose(bearings, bearings, rtol=0.01)
+    assert np.allclose(bearings, np.arange(0, math.pi * 2, (math.pi * 2) / number_of_points), rtol=0.01)
+    assert len(circle) == number_of_points

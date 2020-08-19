@@ -10,7 +10,7 @@ README = (HERE/"README.md").read_text()
 # This call to setup() does all the work
 setup(
    name="vectorized2d",
-   version="0.0.5",
+   version="0.0.6",
    description="This is a user-friendly wrapper to numpy arrays, \
    with batteries included and numba-enhanced performance.",
    long_description=README,
@@ -26,7 +26,7 @@ setup(
    ],
    packages=["vectorized2d", "vectorized2d/utils"],
    include_package_data=True,
-   install_requires=["numpy", "fast-enum"],
+   install_requires=["numpy", "fast-enum", "numba"],
    entrypoints={
    },
  )
