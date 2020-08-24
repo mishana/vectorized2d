@@ -74,7 +74,7 @@ class Vector2D(Array2D):
         onto_unit = onto.normalized()
         return self._project_onto(self, onto_unit).view(Vector2D)
 
-    def rotate(self, rotation_angle: Union[float, np.ndarray, Iterable[float]],
+    def rotated(self, rotation_angle: Union[float, np.ndarray, Iterable[float]],
                rotation_units: Units = Units.RADIANS) -> Vector2D:
         if rotation_units is Vector2D.Units.DEGREES:
             rotation_angle = np.deg2rad(rotation_angle)
