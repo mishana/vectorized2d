@@ -95,3 +95,6 @@ def test_direction():
     v = Vector2D(magnitude=magnitude, direction=direction, direction_units=Vector2D.Units.DEGREES)
 
     assert np.allclose(np.rad2deg(v.direction), direction)
+
+def test_angle_to():
+    pass #TODO use rotate method
