@@ -86,6 +86,24 @@ class Vector2D(Array2D):
 
     @staticmethod
     @njit
+    def _calc_angle_diff(direction_from: np.ndarray, direction_to: np.ndarray) -> np.ndarray:
+        raw_diff = direction_to - direction_from
+        diff = np.abs(raw_diff) % (2 * np.pi)
+        diff[diff > np.pi] = 2 * np.pi - diff[diff > np.pi]
+
+        mask = ((raw_diff >= -np.pi) & (raw_diff <= 0)) | ((raw_diff >= np.pi) & (raw_diff <= 2 * np.pi))
+        diff[mask] *= -1
+        return diff
+
+    def angle_to(self, v_towards: Vector2D):
+        """
+        Returns the angle between the current vector(s) and v_towards.
+        The angle is defined such that [(self.direction + angle) % 2*pi = v_towards.direction]
+        """
+        return self._calc_angle_diff(direction_from=self.direction, direction_to=v_towards.direction)
+
+    @staticmethod
+    @njit
     def _direction(v: Vector2D) -> np.ndarray:
         return np.arctan2(v[:, 1], v[:, 0]) % (2 * np.pi)
 
