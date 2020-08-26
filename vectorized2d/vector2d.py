@@ -90,12 +90,10 @@ class Vector2D(Array2D):
         raw_diff = direction_to - direction_from
         diff = np.abs(raw_diff) % (2 * np.pi)
         diff[diff > np.pi] = 2 * np.pi - diff[diff > np.pi]
-        signs = np.full_like(diff, -1)
-        signs[np.logical_or(
-            np.logical_and(0 <= raw_diff, raw_diff <= np.pi),
-            np.logical_and(-np.pi >= raw_diff, raw_diff >= -2 * np.pi),
-        )] = 1
-        return diff * signs
+
+        mask = ((raw_diff >= -np.pi) & (raw_diff <= 0)) | ((raw_diff >= np.pi) & (raw_diff <= 2 * np.pi))
+        diff[mask] *= -1
+        return diff
 
     def angle_to(self, v_towards: Vector2D):
         """
