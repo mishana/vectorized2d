@@ -66,7 +66,7 @@ class Vector2D(Array2D):
 
     @staticmethod
     @njit
-    def _project_onto(v: Vector2D, onto_unit: Vector2D) -> np.ndarray:  # pragma: no cov
+    def _project_onto(v: Vector2D, onto_unit: Vector2D) -> np.ndarray:
         projection_magnitude = (v[:, 0] * onto_unit[:, 0] + v[:, 1] * onto_unit[:, 1]).reshape(-1, 1)
         return projection_magnitude * onto_unit
 
