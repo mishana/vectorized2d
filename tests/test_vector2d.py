@@ -108,5 +108,16 @@ def test_rotation():
 
     assert np.allclose(np.rad2deg(v_rotated.direction), expected_angles)
 
+
 def test_angle_to():
-    pass #TODO use rotate method
+    direction = np.random.random(size=(5000,)) * randint(1, 360) + 1
+    rotation = np.random.random(size=(5000,)) * randint(-180, 180)
+    magnitude = np.random.random(size=(5000,)) * randint(1, 20) + 1
+
+    v = Vector2D(magnitude=magnitude, direction=direction, direction_units=Vector2D.Units.DEGREES)
+    v_rotated = v.rotated(rotation_angle=rotation, rotation_units=Vector2D.Units.DEGREES)
+    angle_diff = v.angle_to(v_rotated)
+    assert np.allclose(np.rad2deg(angle_diff), rotation)
+
+    angle_diff = v_rotated.angle_to(v)
+    assert np.allclose(np.rad2deg(angle_diff), -rotation)

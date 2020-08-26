@@ -102,7 +102,7 @@ class Vector2D(Array2D):
         Returns the angle between the current vector(s) and v_towards.
         The angle is defined such that [(self.direction + angle) % 2*pi = v_towards.direction]
         """
-        return self._calc_angle_diff(direction_from=self.direction, direction_to=v_towards)
+        return self._calc_angle_diff(direction_from=self.direction, direction_to=v_towards.direction)
 
     @staticmethod
     @njit
