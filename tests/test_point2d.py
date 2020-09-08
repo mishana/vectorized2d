@@ -1,7 +1,8 @@
+from random import randint
+
 import numpy as np
 
 from vectorized2d import Point2D
-from random import randint
 
 
 def test_euclidean_distance_same_shape_aligned():
@@ -71,3 +72,15 @@ def test_euclidean_distance_squared():
 
     assert np.allclose(p1.euclid_dist(p2) ** 2, p1.euclid_dist_squared(p2))
     assert np.allclose(p2.euclid_dist(p1) ** 2, p2.euclid_dist_squared(p1))
+
+
+def test_euclidean_distance_squared_aligned():
+    a1 = np.random.random(size=(100, 2))
+    a2 = np.random.random(size=(100, 2))
+    p1 = Point2D(a1)
+    p2 = Point2D(a2)
+
+    assert np.allclose(p1.euclid_dist(p2, pairing=Point2D.Pairing.ALIGNED) ** 2,
+                       p1.euclid_dist_squared(p2, pairing=Point2D.Pairing.ALIGNED))
+    assert np.allclose(p2.euclid_dist(p1, pairing=Point2D.Pairing.ALIGNED) ** 2,
+                       p2.euclid_dist_squared(p1, pairing=Point2D.Pairing.ALIGNED))

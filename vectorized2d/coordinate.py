@@ -106,7 +106,7 @@ class Coordinate(Point2D):
         :return: a 1D numpy array of geographical distance(s) between self and other [meters]
         """
         d_east, d_north = self._delta_east_and_north(other)
-        return self._dist(d_north, d_east)
+        return self._dist(d_north=d_north, d_east=d_east)
 
     @staticmethod
     @njit
@@ -124,7 +124,7 @@ class Coordinate(Point2D):
         :return: a 1D numpy array of geographical distance(s) squared between self and other [meters**2]
         """
         d_east, d_north = self._delta_east_and_north(other)
-        return d_north * d_north + d_east * d_east
+        return self._dist_squared(d_north=d_north, d_east=d_east)
 
     @staticmethod
     @njit
@@ -205,15 +205,14 @@ class Coordinate(Point2D):
         assert len(self) == 1, 'circle_around() method is undefined for multi-coordinates'
         return self.shifted(geo_dist=radius, bearing=np.arange(0, math.pi * 2, (math.pi * 2) / number_of_points))
 
-
     @staticmethod
     @njit
     def _ellipse_around(major_radius: float, minor_radius: float, major_axis_bearing: float,
                         number_of_points: int) -> Tuple[np.ndarray, float]:
         bearings = np.arange(0, math.pi * 2, (math.pi * 2) / number_of_points)
-        radii = (major_radius * minor_radius) / np.sqrt(
-            (major_radius ** 2) * (np.pi / 2 - np.cos(bearings - major_axis_bearing) ** 2) +
-            (minor_radius ** 2) * (np.sin(bearings - major_axis_bearing) ** 2))
+        radii = major_radius * np.sqrt(
+            1 - (1 - (minor_radius / major_radius) ** 2) * np.sin(bearings - major_axis_bearing) ** 2
+        )
         return bearings, radii
 
     def ellipse_around(self, major_radius: float, minor_radius: float, major_axis_bearing: float,

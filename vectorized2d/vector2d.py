@@ -71,6 +71,12 @@ class Vector2D(Array2D):
         return projection_magnitude * onto_unit
 
     def project_onto(self, onto: Vector2D) -> Vector2D:
+        """
+        Calculate a projection of itself onto another vector.
+
+        :param onto: a direction vector to project itself onto.
+        :return: the projected vector.
+        """
         onto_unit = onto.normalized()
         return self._project_onto(self, onto_unit).view(Vector2D)
 
