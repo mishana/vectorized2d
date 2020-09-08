@@ -95,6 +95,21 @@ def test_geo_distance_same_shape():
     assert np.allclose(dists_c3_c4[2:], 72_497.1, rtol=0.01)
 
 
+def test_geo_distance_squared_same_shape():
+    c1 = Coordinate(lat=33, lon=34, units=Coordinate.Units.DEGREES)
+    c2 = Coordinate(lat=33.5, lon=34.5, units=Coordinate.Units.DEGREES)
+    c3 = Coordinate.concat([c1, c1, c2, c2])
+    c4 = Coordinate.concat([c2, c2, c1, c1])
+
+    dists_c3_c4 = c3.geo_dist_squared(c4)
+    dists_c3_c3 = c3.geo_dist_squared(c3)
+
+    assert np.all(dists_c3_c4 == dists_c3_c4[0])
+    assert np.all(dists_c3_c3 == 0.0)
+    assert np.allclose(dists_c3_c4[:2], 72_497.1**2, rtol=0.01)
+    assert np.allclose(dists_c3_c4[2:], 72_497.1**2, rtol=0.01)
+
+
 def test_geo_distance_broadcast():
     c1 = Coordinate(lat=33, lon=34, units=Coordinate.Units.DEGREES)
     c2 = Coordinate(lat=33.5, lon=34.5, units=Coordinate.Units.DEGREES)
@@ -236,5 +251,25 @@ def test_circle_around():
     dists, bearings = c.geo_dist_and_bearing(circle)
 
     assert np.allclose(dists, radius, rtol=0.01)
-    assert np.allclose(bearings, np.arange(0, math.pi * 2, (math.pi * 2) / number_of_points), rtol=0.01)
+    assert np.allclose(bearings, np.arange(0, math.pi * 2, (math.pi * 2) / number_of_points), rtol=0.01, atol=1e-3)
     assert len(circle) == number_of_points
+
+
+def test_ellipse_around():
+    c = Coordinate(lat=33 + random(), lon=34 - random(), units=Coordinate.Units.DEGREES)
+    minor_radius = random() * 60 * units.NM_TO_METERS
+    major_radius = random() * 60 * units.NM_TO_METERS + minor_radius
+    major_axis_bearing = np.deg2rad(_rand_degree())
+    number_of_points = randint(1, 1000)
+
+    ellipse = c.ellipse_around(major_radius=major_radius, minor_radius=minor_radius,
+                               major_axis_bearing=major_axis_bearing, number_of_points=number_of_points)
+    dists, bearings = c.geo_dist_and_bearing(ellipse)
+    atol = 1e-8
+    rtol = 0.01
+    lower_bound = minor_radius - atol - minor_radius * rtol
+    upper_bound = major_radius + atol + major_radius * rtol
+
+    assert np.all((dists >= lower_bound) & (dists <= upper_bound))
+    assert np.allclose(bearings, np.arange(0, math.pi * 2, (math.pi * 2) / number_of_points), rtol=0.01, atol=1e-3)
+    assert len(ellipse) == number_of_points

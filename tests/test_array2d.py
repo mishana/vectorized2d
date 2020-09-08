@@ -109,7 +109,7 @@ def test_repeat_scalar_repeats():
 
 def test_repeat_iterable_repeats():
     a = np.random.random(size=(random.randint(1, 1000), 2)).view(Array2D)
-    repeats = np.random.random_integers(low=1, high=100, size=a.shape[0])
+    repeats = np.random.randint(low=1, high=100, size=a.shape[0])
     ar = a.repeat(repeats)
 
     assert ar.shape[1] == 2
@@ -144,3 +144,45 @@ def test_reduce_ufuncs_same_as_ndarray():
     assert a_np.mean() == a_2d.mean() and np.mean(a_2d) == a_2d.mean()
     assert a_np.std() == a_2d.std() and np.std(a_2d) == a_2d.std()
     assert a_np.var() == a_2d.var() and np.var(a_2d) == a_2d.var()
+
+
+def test_array_equal():
+    a_np = np.random.random(size=(random.randint(1, 1000), 2))
+    a_2d = Array2D(a_np)
+
+    assert a_2d == a_2d
+    assert a_np.view(Array2D) == a_2d
+
+
+def test_array_not_equal():
+    a_np = np.random.random(size=(random.randint(1, 1000), 2))
+    a_2d = Array2D(a_np) * 0.99
+    a_2d_less = a_2d[:-1]
+
+    assert not a_2d == a_np.view(Array2D)
+    assert a_2d != a_np.view(Array2D)
+    assert a_2d != np.asarray(a_2d)
+    assert a_2d != a_2d_less
+
+
+def test_split():
+    a = np.random.random(size=(random.randint(1, 1000), 2)).view(Array2D)
+    lst = a.split()
+
+    assert isinstance(lst, list)
+    assert len(lst) == len(a)
+    for i in range(len(lst)):
+        assert lst[i] == a[i]
+
+
+def test_hash():
+    a1 = np.random.random(size=(random.randint(1, 1000), 2)).view(Array2D)
+    a2 = np.random.random(size=(random.randint(1, 1000), 2)).view(Array2D)
+
+    assert hash(a1) == hash(a1.copy())
+    assert hash(a2) == hash(a2.copy())
+
+    is_equal = a1 == a2
+    is_hash_equal = hash(a1) == hash(a2)
+
+    assert is_equal == is_hash_equal

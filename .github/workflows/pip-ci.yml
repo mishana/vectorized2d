@@ -32,6 +32,8 @@ jobs:
         pytest
     - name: Coverage
       run: |
+        export NUMBA_DISABLE_JIT=1
         pytest --cov=./
         codecov -t ${{secrets.CODECOV_TOKEN}}
+        export NUMBA_DISABLE_JIT=0
 

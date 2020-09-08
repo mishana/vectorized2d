@@ -3,7 +3,9 @@ exclude_lines =
     class.*\(ABC\).*:
     from.*
     import.*
+omit = setup.py
 
 [run]
 source=vectorized2d
+
 

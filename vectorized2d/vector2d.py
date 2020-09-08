@@ -71,8 +71,42 @@ class Vector2D(Array2D):
         return projection_magnitude * onto_unit
 
     def project_onto(self, onto: Vector2D) -> Vector2D:
+        """
+        Calculate a projection of itself onto another vector.
+
+        :param onto: a direction vector to project itself onto.
+        :return: the projected vector.
+        """
         onto_unit = onto.normalized()
         return self._project_onto(self, onto_unit).view(Vector2D)
+
+    def rotated(self, rotation_angle: Union[float, np.ndarray, Iterable[float]],
+                rotation_units: Units = Units.RADIANS) -> Vector2D:
+        """
+        Calculates a rotated vector(s) by given rotation angle(s)
+        """
+        if rotation_units is Vector2D.Units.DEGREES:
+            rotation_angle = np.deg2rad(rotation_angle)
+        new_direction = self.direction + rotation_angle
+        return Vector2D(magnitude=self.norm, direction=new_direction)
+
+    @staticmethod
+    @njit
+    def _calc_angle_diff(direction_from: np.ndarray, direction_to: np.ndarray) -> np.ndarray:
+        raw_diff = direction_to - direction_from
+        diff = np.abs(raw_diff) % (2 * np.pi)
+        diff[diff > np.pi] = 2 * np.pi - diff[diff > np.pi]
+
+        mask = ((raw_diff >= -np.pi) & (raw_diff <= 0)) | ((raw_diff >= np.pi) & (raw_diff <= 2 * np.pi))
+        diff[mask] *= -1
+        return diff
+
+    def angle_to(self, v_towards: Vector2D):
+        """
+        Returns the angle between the current vector(s) and v_towards.
+        The angle is defined such that [(self.direction + angle) % 2*pi = v_towards.direction]
+        """
+        return self._calc_angle_diff(direction_from=self.direction, direction_to=v_towards.direction)
 
     @staticmethod
     @njit
