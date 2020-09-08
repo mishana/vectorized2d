@@ -251,7 +251,7 @@ def test_circle_around():
     dists, bearings = c.geo_dist_and_bearing(circle)
 
     assert np.allclose(dists, radius, rtol=0.01)
-    assert np.allclose(bearings, np.arange(0, math.pi * 2, (math.pi * 2) / number_of_points), rtol=0.01)
+    assert np.allclose(bearings, np.arange(0, math.pi * 2, (math.pi * 2) / number_of_points), rtol=0.01, atol=1e-3)
     assert len(circle) == number_of_points
 
 
@@ -271,5 +271,5 @@ def test_ellipse_around():
     upper_bound = major_radius + atol + major_radius * rtol
 
     assert np.all((dists >= lower_bound) & (dists <= upper_bound))
-    assert np.allclose(bearings, np.arange(0, math.pi * 2, (math.pi * 2) / number_of_points), rtol=0.01)
+    assert np.allclose(bearings, np.arange(0, math.pi * 2, (math.pi * 2) / number_of_points), rtol=0.01, atol=1e-3)
     assert len(ellipse) == number_of_points
