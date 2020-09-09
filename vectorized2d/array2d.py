@@ -123,13 +123,11 @@ class Array2D(np.ndarray):
     @staticmethod
     @njit
     def _array_equal(a: np.ndarray, b: np.ndarray) -> bool:
-        res = True
         for i in range(len(a)):
-            res = res and a[i, 0] == b[i, 0] and a[i, 1] == b[i, 1]
-            if not res:
+            if a[i, 0] != b[i, 0] or a[i, 1] != b[i, 1]:
                 return False
 
-        return res
+        return True
 
     def __eq__(self, other):
         if type(self) is not type(other) or len(self) != len(other):
